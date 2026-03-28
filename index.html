@@ -30,7 +30,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
   
   <!-- PWA -->
-  <meta name="theme-color" content="#4da3ff" />
+  <meta name="theme-color" content="#3b82f6" />
   <link rel="manifest" href="data:application/manifest+json,{'name':'Rudra Portfolio','short_name':'Rudra','theme_color':'#4da3ff','background_color':'#0b1324','display':'standalone','icons':[{'src':'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>','sizes':'192x192','type':'image/svg+xml'}]}" />
 
   <!-- Libraries -->
@@ -44,49 +44,77 @@
 
   <style>
     :root{
-      --bg:#0b1324; --bg-soft:#0f1830; --card:#121c36; --text:#eaf0ff; --muted:#9fb2d9; --primary:#4da3ff; --accent:#00d4ff; --ring:rgba(77,163,255,.35);
-      --gradient-primary: linear-gradient(135deg, #4da3ff 0%, #00d4ff 100%);
-      --gradient-dark: linear-gradient(135deg, #0b1324 0%, #121c36 100%);
+      --bg:#060912; --bg-soft:#0c1222; --card:#0f1729; --text:#f1f5f9; --muted:#64748b; --primary:#3b82f6; --accent:#22d3ee; --ring:rgba(59,130,246,.35);
+      --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+      --gradient-card: linear-gradient(145deg, #0f1729 0%, #0a0f17 100%);
+      --gradient-dark: linear-gradient(135deg, #060912 0%, #0f1729 100%);
+      --shadow-lg:0 25px 50px -12px rgba(0,0,0,0.6);
+      --shadow-glow:0 0 50px rgba(59,130,246,0.25);
+      --border-subtle:rgba(255,255,255,0.06);
     }
     :root[data-theme="light"]{
-      --bg:#f7f9fe; --bg-soft:#ffffff; --card:#ffffff; --text:#0e1726; --muted:#4d5b7c; --primary:#0b6bff; --accent:#00b3ff; --ring:rgba(11,107,255,.25);
+      --bg:#f0f4f8; --bg-soft:#ffffff; --card:#ffffff; --text:#1e293b; --muted:#475569; --primary:#2563eb; --accent:#0891b2; --ring:rgba(37,99,235,.2);
+      --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      --gradient-dark: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      --shadow-lg:0 25px 50px -12px rgba(0,0,0,0.08);
+      --shadow-glow:0 0 50px rgba(37,99,235,0.12);
+      --border-subtle:rgba(0,0,0,0.08);
     }
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; background:var(--bg); color:var(--text); overflow-x: hidden; line-height: 1.7;}
+    *,*::before,*::after{transition:background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease !important;}
+    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; background:var(--bg); color:var(--text); overflow-x: hidden; line-height:1.7; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-tap-highlight-color:transparent;}
+    
+    /* Focus States */
+    *:focus-visible{outline:2px solid var(--primary); outline-offset:3px;}
+    a:focus-visible, button:focus-visible{outline:2px solid var(--primary); outline-offset:3px; border-radius:8px;}
+    
+    /* Touch Optimizations */
+    @media (hover:none){.btn:hover{transform:none;}}
     
     /* Enhanced Navbar */
-    .nav-blur{backdrop-filter:saturate(180%) blur(20px); background:color-mix(in oklab, var(--bg) 90%, transparent); border-bottom:1px solid color-mix(in oklab, var(--text) 8%, transparent); transition: all 0.3s ease; padding: 0.8rem 0;}
-    .navbar-brand{font-weight:800; letter-spacing:.5px; color:var(--text)!important; font-size:1.4rem;}
+    .nav-blur{backdrop-filter:blur(20px); background:rgba(6,9,18,0.9); border-bottom:1px solid var(--border-subtle); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 0.75rem 0; box-shadow:0 4px 30px rgba(0,0,0,0.15);}
+    :root[data-theme="light"] .nav-blur{background:rgba(240,244,248,0.92); box-shadow:0 4px 30px rgba(0,0,0,0.06);}
+    .navbar-brand{font-weight:800; letter-spacing:-0.5px; color:var(--text)!important; font-size:1.5rem;}
     .navbar-brand span{background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;}
     
     /* Enhanced Buttons */
-    .btn-primary{background:var(--gradient-primary); border:0; transition: all 0.3s ease; font-weight:600; padding:0.6rem 1.4rem; border-radius:10px;}
-    .btn-primary:hover {transform: translateY(-3px); box-shadow: 0 15px 35px -10px rgba(77,163,255,0.5); color:#fff !important;}
-    .btn-outline{border:2px solid var(--primary); color:var(--primary); font-weight:600; transition: all 0.3s ease; border-radius:10px; padding:0.6rem 1.4rem;}
-    .btn-outline:hover{background:var(--primary); color:#fff !important; transform: translateY(-3px); box-shadow: 0 10px 25px -10px var(--ring);}
+    .btn-primary{background:var(--gradient-primary); border:0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-weight:600; padding:0.7rem 1.6rem; border-radius:12px; letter-spacing:0.3px; position:relative; overflow:hidden;}
+    .btn-primary:hover {transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(59,130,246,0.5); color:#fff !important;}
+    .btn-primary:active{transform:translateY(-2px);}
+    .btn-outline{border:2px solid rgba(59,130,246,0.5); color:var(--primary); background:transparent; font-weight:600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius:12px; padding:0.65rem 1.5rem;}
+    .btn-outline:hover{background:var(--gradient-primary); border-color:transparent; color:#fff !important; transform: translateY(-4px); box-shadow: 0 15px 30px -10px var(--ring);}
     .btn-glow{position:relative; overflow:hidden;}
-    .btn-glow::before{content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); transition:left 0.5s;}
+    .btn-glow::before{content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent); transition:left 0.6s ease;}
     .btn-glow:hover::before{left:100%;}
     
     /* Enhanced Cards */
     .shadow-soft{box-shadow:0 8px 40px -15px var(--ring);}
-    .card{background:var(--card); border:1px solid color-mix(in oklab, var(--text) 6%, transparent); transition: all 0.4s ease; border-radius:16px;}
-    .card:hover{transform:translateY(-8px); box-shadow:0 20px 50px -20px var(--ring); border-color:color-mix(in oklab, var(--primary) 30%, transparent);}
-    .badge-soft{background:color-mix(in oklab, var(--primary) 15%, transparent); color:var(--text); border:1px solid color-mix(in oklab, var(--primary) 25%, transparent); font-weight:500; padding:0.4rem 0.8rem; border-radius:8px;}
+    .card{background:var(--gradient-card); border:1px solid var(--border-subtle); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius:20px; position:relative; overflow:hidden;}
+    .card::before{content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--gradient-primary); opacity:0; transition:opacity 0.3s ease;}
+    .card:hover::before{opacity:1;}
+    .card:hover{transform:translateY(-10px) scale(1.01); box-shadow:var(--shadow-lg); border-color:rgba(59,130,246,0.3);}
+    .badge-soft{background:linear-gradient(135deg, rgba(59,130,246,0.15), rgba(34,211,238,0.1)); color:var(--text); border:1px solid rgba(59,130,246,0.2); font-weight:600; padding:0.4rem 0.9rem; border-radius:20px; font-size:0.75rem; letter-spacing:0.5px;}
     
     /* Sections */
-    .section{padding:100px 0; position:relative;}
+    .section{padding:110px 0; position:relative;}
+    .section-alt{background:linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.03) 50%, transparent 100%);}
     
     /* Enhanced Hero */
-    .hero{position:relative; overflow:hidden; background:radial-gradient(ellipse at 20% 20%, color-mix(in oklab,var(--primary) 20%, transparent) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, color-mix(in oklab,var(--accent) 15%, transparent) 0%, transparent 50%); min-height:100vh; display:flex; align-items:center;}
-    .hero-glow{position:absolute; width:800px; height:800px; border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(77,163,255,0.15), transparent 60%); filter:blur(80px); top:-20%; right:-20%; animation:pulse-glow 8s ease-in-out infinite;}
-    @keyframes pulse-glow{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+    .hero{position:relative; overflow:hidden; background:var(--gradient-dark); min-height:100vh; display:flex; align-items:center;}
+    :root[data-theme="light"] .hero{background:linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);}
+    .hero::before{content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 30%, rgba(59,130,246,0.12) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(34,211,238,0.08) 0%, transparent 40%); animation:hero-rotate 30s linear infinite;}
+    :root[data-theme="light"] .hero::before{background:radial-gradient(circle at 30% 30%, rgba(37,99,235,0.08) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(8,145,178,0.06) 0%, transparent 40%);}
+    @keyframes hero-rotate{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+    .hero-glow{position:absolute; width:900px; height:900px; border-radius:50%; background:radial-gradient(circle at 40% 40%, rgba(59,130,246,0.2), transparent 50%); filter:blur(100px); top:-30%; right:-20%; animation:pulse-glow 10s ease-in-out infinite;}
+    :root[data-theme="light"] .hero-glow{background:radial-gradient(circle at 40% 40%, rgba(37,99,235,0.12), transparent 50%); filter:blur(80px);}
+    @keyframes pulse-glow{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:1;transform:scale(1.15);}}
     .hero-particles{position:absolute; inset:0; overflow:hidden; pointer-events:none;}
-    .particle{position:absolute; background:var(--primary); border-radius:50%; opacity:0.3; animation:float-particle 20s infinite ease-in-out;}
+    .particle{position:absolute; background:var(--primary); border-radius:50%; opacity:0.4; animation:float-particle 25s infinite ease-in-out; box-shadow:0 0 10px var(--primary);}
+    :root[data-theme="light"] .particle{opacity:0.25; box-shadow:0 0 8px rgba(37,99,235,0.3);}
     @keyframes float-particle{0%,100%{transform:translateY(0) translateX(0);}25%{transform:translateY(-30px) translateX(20px);}50%{transform:translateY(-15px) translateX(40px);}75%{transform:translateY(20px) translateX(20px);}}
     
-    .avatar{width:150px; height:150px; border-radius:24px; border:3px solid color-mix(in oklab, var(--text) 10%, transparent); transition: all 0.5s ease; object-fit:cover;}
-    .avatar:hover {transform: scale(1.08) rotate(2deg); box-shadow: 0 20px 60px -20px rgba(77,163,255,0.4);}
+    .avatar{width:150px; height:150px; border-radius:24px; border:3px solid rgba(59,130,246,0.3); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); object-fit:cover; box-shadow:0 0 30px rgba(59,130,246,0.15);}
+    .avatar:hover {transform: scale(1.08) rotate(3deg); box-shadow: 0 20px 60px -20px rgba(59,130,246,0.4);}
     
     .chip{display:inline-flex; gap:.5rem; align-items:center; padding:.5rem 1rem; border-radius:50px; border:1px dashed color-mix(in oklab, var(--text) 15%, transparent); color:var(--muted); font-size:0.85rem; font-weight:500;}
     .kicker{letter-spacing:.15em; text-transform:uppercase; color:var(--primary); font-weight:700; font-size:.75rem; display:inline-block; margin-bottom:0.5rem;}
@@ -98,43 +126,45 @@
     @media (max-width: 768px){.grid-4{grid-template-columns:1fr;} .grid-3{grid-template-columns:1fr;}}
     
     /* Timeline */
-    .timeline{position:relative; padding-left:40px;}
-    .timeline::before{content:""; position:absolute; left:15px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--primary), var(--accent));}
-    .t-item{position:relative; margin-bottom:35px; padding:25px; background:var(--card); border-radius:16px; border:1px solid color-mix(in oklab, var(--text) 6%, transparent); transition: all 0.3s ease;}
-    .t-item:hover{transform:translateX(10px); border-color:color-mix(in oklab, var(--primary) 30%, transparent);}
-    .t-item::before{content:""; position:absolute; left:-33px; top:30px; width:16px; height:16px; border-radius:50%; background:var(--gradient-primary); border:3px solid var(--bg); box-shadow:0 0 0 4px var(--primary);}
+    .timeline{position:relative; padding-left:45px;}
+    .timeline::before{content:""; position:absolute; left:18px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--primary), var(--accent), var(--primary)); background-size:100% 200%; animation:timeline-flow 4s linear infinite;}
+    @keyframes timeline-flow{0%{background-position:0% 0%;} 100%{background-position:0% 200%;}}
+    .t-item{position:relative; margin-bottom:30px; padding:30px; background:var(--gradient-card); border-radius:20px; border:1px solid var(--border-subtle); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
+    .t-item:hover{transform:translateX(12px); border-color:rgba(59,130,246,0.3); box-shadow:var(--shadow-glow);}
+    .t-item::before{content:""; position:absolute; left:-35px; top:35px; width:18px; height:18px; border-radius:50%; background:var(--gradient-primary); border:4px solid var(--bg); box-shadow:0 0 0 4px var(--primary), 0 0 20px rgba(59,130,246,0.4);}
     
     /* Icon Pills */
     .icon-pill{display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border-radius:50px; background:color-mix(in oklab, var(--primary) 12%, transparent); font-size:.85rem; font-weight:500;}
     .icon-pill i{font-size:1rem;}
     
     /* Project Cards */
-    .project-card{overflow:hidden; border-radius:16px;}
-    .project-img{height:200px; object-fit:cover; transition: all 0.5s ease;}
-    .project-card:hover .project-img{transform:scale(1.1);}
-    .project-overlay{position:absolute; inset:0; background:linear-gradient(to top, rgba(11,19,36,0.95) 0%, transparent 60%); opacity:0; transition: opacity 0.3s ease; display:flex; align-items:flex-end; padding:20px;}
+    .project-card{overflow:hidden; border-radius:20px; background:var(--gradient-card);}
+    .project-img{height:220px; object-fit:cover; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
+    .project-card:hover .project-img{transform:scale(1.12);}
+    .project-overlay{position:absolute; inset:0; background:linear-gradient(to top, rgba(6,9,18,0.95) 0%, rgba(6,9,18,0.4) 50%, transparent 100%); opacity:0; transition: all 0.4s ease; display:flex; align-items:flex-end; padding:25px;}
     .project-card:hover .project-overlay{opacity:1;}
     
     /* Social Buttons */
-    .social a{display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:14px; border:1px solid color-mix(in oklab, var(--text) 10%, transparent); transition: all 0.3s ease; font-size:1.3rem;}
-    .social a:hover {background: var(--gradient-primary); transform: translateY(-5px) scale(1.1); color:#fff !important; box-shadow: 0 15px 35px -10px rgba(77,163,255,0.5);}
+    .social a{display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:14px; border:1px solid var(--border-subtle); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size:1.25rem; background:rgba(255,255,255,0.02);}
+    .social a:hover {background: var(--gradient-primary); transform: translateY(-6px) scale(1.1); color:#fff !important; box-shadow: 0 20px 40px -15px rgba(59,130,246,0.5); border-color:transparent;}
     
     /* Theme Toggle */
-    .theme-toggle{border:1px solid color-mix(in oklab, var(--text) 15%, transparent); transition: all 0.3s ease; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;}
-    .theme-toggle:hover {background: var(--gradient-primary); color:#fff !important; border-color:transparent;}
+    .theme-toggle{border:1px solid var(--border-subtle); transition: all 0.3s ease; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--card); color:var(--text);}
+    .theme-toggle:hover {background: var(--gradient-primary); color:#fff !important; border-color:transparent; transform:scale(1.1);}
     
     /* Floating CTA */
     .sticky-cta{position:fixed; right:20px; bottom:20px; z-index:1040;}
-    .floating-btn{width:60px; height:60px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; box-shadow:0 8px 30px rgba(77,163,255,0.4); cursor:pointer; transition: all 0.3s ease; border:none;}
-    .floating-btn:hover{transform:scale(1.15) rotate(10deg); box-shadow:0 15px 40px rgba(77,163,255,0.5);}
+    .floating-btn{width:60px; height:60px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.5rem; box-shadow:0 8px 30px rgba(59,130,246,0.4); cursor:pointer; transition: all 0.3s ease; border:none;}
+    .floating-btn:hover{transform:scale(1.15) rotate(10deg); box-shadow:0 15px 40px rgba(59,130,246,0.5);}
     
     /* Scroll to Top */
-    .scroll-top{position:fixed; bottom:90px; right:20px; width:45px; height:45px; border-radius:12px; background:var(--card); border:1px solid color-mix(in oklab, var(--text) 10%, transparent); color:var(--primary); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; transition: all 0.3s ease; z-index:1039;}
+    .scroll-top{position:fixed; bottom:90px; right:20px; width:45px; height:45px; border-radius:12px; background:var(--card); border:1px solid var(--border-subtle); color:var(--primary); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; transition: all 0.3s ease; z-index:1039;}
     .scroll-top.visible{opacity:1; visibility:visible;}
-    .scroll-top:hover{background:var(--primary); color:#fff !important;}
+    .scroll-top:hover{background:var(--gradient-primary); color:#fff !important; transform:translateY(-3px);}
     
     /* Footer */
-    .footer{border-top:1px solid color-mix(in oklab, var(--text) 10%, transparent); background:color-mix(in oklab, var(--bg) 50%, transparent);}
+    .footer{border-top:1px solid var(--border-subtle); background:linear-gradient(180deg, transparent 0%, rgba(6,9,18,0.5) 100%); position:relative;}
+    .footer::before{content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--gradient-primary); opacity:0.5;}
     
     /* Skills Section */
     .skill-card{position:relative; overflow:hidden; padding:30px;}
@@ -148,20 +178,22 @@
     .skill-progress{height:100%; border-radius:5px; background:var(--gradient-primary); width:0; transition: width 1.5s ease-in-out;}
     
     /* Stats Section */
-    .stats-section{background:linear-gradient(135deg, rgba(77,163,255,0.1) 0%, rgba(0,212,255,0.1) 100%); border-radius:24px; padding:60px 0; margin:60px 0;}
-    .stat-box{text-align:center; padding:20px;}
-    .stat-number{font-size:3rem; font-weight:800; background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;}
-    .stat-label{color:var(--muted); font-size:1rem; font-weight:500; margin-top:5px;}
+    .stats-section{background:linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(34,211,238,0.08) 100%); border-radius:30px; padding:70px 0; margin:80px 0; border:1px solid var(--border-subtle); position:relative; overflow:hidden;}
+    .stats-section::before{content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 50%); animation:hero-rotate 40s linear infinite reverse;}
+    .stat-box{text-align:center; padding:25px; position:relative;}
+    .stat-number{font-size:3.5rem; font-weight:800; background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-2px;}
+    .stat-label{color:var(--muted); font-size:1rem; font-weight:600; margin-top:8px; text-transform:uppercase; letter-spacing:1px;}
     
     /* Contact Form */
-    .contact-form .form-control{background:color-mix(in oklab, var(--bg) 30%, transparent); border:1px solid color-mix(in oklab, var(--text) 12%, transparent); color:var(--text); padding:14px 18px; border-radius:12px; transition: all 0.3s ease; font-size:1rem;}
-    .contact-form .form-control:focus{background:color-mix(in oklab, var(--bg) 50%, transparent); border-color:var(--primary); box-shadow:0 0 0 4px var(--ring); outline:none;}
+    .contact-form .form-control{background:rgba(6,9,18,0.5); border:1px solid var(--border-subtle); color:var(--text); padding:16px 20px; border-radius:14px; transition: all 0.3s ease; font-size:1rem; backdrop-filter:blur(10px);}
+    .contact-form .form-control:focus{background:rgba(6,9,18,0.7); border-color:var(--primary); box-shadow:0 0 0 4px var(--ring), var(--shadow-glow); outline:none;}
     .contact-form .form-control::placeholder{color:var(--muted);}
     
     /* Testimonials */
-    .testimonial-card{padding:40px; background:var(--card); border-radius:20px; border:1px solid color-mix(in oklab, var(--text) 6%, transparent); position:relative;}
-    .testimonial-card::before{content:'"'; position:absolute; top:20px; left:30px; font-size:6rem; color:var(--primary); opacity:0.1; font-family:Georgia, serif; line-height:1;}
-    .testimonial-avatar{width:70px; height:70px; border-radius:50%; object-fit:cover; border:3px solid var(--primary);}
+    .testimonial-card{padding:40px; background:var(--gradient-card); border-radius:24px; border:1px solid var(--border-subtle); position:relative; transition: all 0.4s ease;}
+    .testimonial-card:hover{transform:translateY(-8px); box-shadow:var(--shadow-glow);}
+    .testimonial-card::before{content:'"'; position:absolute; top:15px; left:30px; font-size:7rem; color:var(--primary); opacity:0.08; font-family:Georgia, serif; line-height:1;}
+    .testimonial-avatar{width:65px; height:65px; border-radius:50%; object-fit:cover; border:3px solid var(--primary); box-shadow:0 0 20px rgba(59,130,246,0.3);}
     
     /* YouTube Section */
     .youtube-card{background:var(--card); border-radius:20px; overflow:hidden; border:1px solid color-mix(in oklab, var(--text) 6%, transparent);}
@@ -172,15 +204,17 @@
     .youtube-card:hover .play-btn{transform:translate(-50%,-50%) scale(1); opacity:1;}
     
     /* Nav Link Enhancements */
-    .nav-link{position:relative; font-weight:500; padding:0.5rem 1rem !important; border-radius:8px; transition: all 0.3s ease;}
+    .nav-link{position:relative; font-weight:500; padding:0.5rem 1rem !important; border-radius:8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); color:var(--text); -webkit-tap-highlight-color:transparent;}
     .nav-link::after{content:''; position:absolute; width:0; height:2px; bottom:0; left:50%; transform:translateX(-50%); background:var(--gradient-primary); transition: width 0.3s ease;}
     .nav-link:hover::after, .nav-link.active::after{width:60%;}
-    .nav-link:hover{color:var(--primary) !important;}
+    .nav-link:hover{color:var(--primary) !important; background:rgba(59,130,246,0.08);}
+    .nav-link:active{transform:scale(0.97);}
     
     /* Section Heading */
-    .section-heading{text-align:center; max-width:700px; margin:0 auto 60px;}
-    .section-heading h2{font-size:2.5rem; font-weight:800; margin-bottom:15px;}
-    .section-heading p{color:var(--muted); font-size:1.1rem;}
+    .section-heading{text-align:center; max-width:700px; margin:0 auto 70px;}
+    .section-heading h2{font-size:2.75rem; font-weight:800; margin-bottom:18px; letter-spacing:-1px;}
+    .section-heading p{color:var(--muted); font-size:1.15rem; line-height:1.7;}
+    .section-heading .kicker{margin-bottom:12px;}
     
     /* Client Logos */
     .client-logos{display:flex; justify-content:center; align-items:center; gap:50px; flex-wrap:wrap; opacity:0.6;}
@@ -188,9 +222,10 @@
     .client-logo i{font-size:2rem;}
     
     /* Service Cards */
-    .service-card{padding:40px 30px; text-align:center; border-radius:20px; background:var(--card); border:1px solid color-mix(in oklab, var(--text) 6%, transparent); transition: all 0.4s ease;}
-    .service-card:hover{transform:translateY(-10px); border-color:color-mix(in oklab, var(--primary) 40%, transparent);}
-    .service-icon{width:80px; height:80px; border-radius:20px; background:color-mix(in oklab, var(--primary) 15%, transparent); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:2.5rem;}
+    .service-card{padding:45px 35px; text-align:center; border-radius:24px; background:var(--gradient-card); border:1px solid var(--border-subtle); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
+    .service-card:hover{transform:translateY(-12px); border-color:rgba(59,130,246,0.4); box-shadow:var(--shadow-glow);}
+    .service-icon{width:85px; height:85px; border-radius:24px; background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(34,211,238,0.1)); display:flex; align-items:center; justify-content:center; margin:0 auto 25px; font-size:2.5rem; transition: all 0.3s ease;}
+    .service-card:hover .service-icon{background:var(--gradient-primary); transform:scale(1.1) rotate(5deg);}
     
     /* Blog Cards */
     .blog-card{border-radius:16px; overflow:hidden; background:var(--card); border:1px solid color-mix(in oklab, var(--text) 6%, transparent); transition: all 0.4s ease;}
@@ -201,15 +236,18 @@
     
     /* Responsive */
     @media (max-width: 992px){
-      .hero{min-height:auto; padding:120px 0 80px;}
-      .section{padding:70px 0;}
-      .section-heading h2{font-size:2rem;}
-      .avatar{width:120px; height:120px;}
+      .hero{min-height:auto; padding:130px 0 90px;}
+      .section{padding:80px 0;}
+      .section-heading h2{font-size:2.25rem;}
+      .avatar{width:130px; height:130px; border-radius:20px;}
       .t-item::before{left:-32px;}
+      .stat-number{font-size:2.75rem;}
     }
     @media (max-width: 768px){
-      .stat-number{font-size:2.2rem;}
+      .stat-number{font-size:2.5rem;}
       .grid-4{grid-template-columns:1fr;}
+      .section-heading h2{font-size:1.85rem;}
+      .btn-primary, .btn-outline{padding:0.6rem 1.2rem; font-size:0.9rem;}
     }
     
     /* Loading Animation */
@@ -218,12 +256,49 @@
     .loader-content{text-align:center;}
     .loader-spinner{width:60px; height:60px; border:4px solid color-mix(in oklab, var(--text) 10%, transparent); border-top-color:var(--primary); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 20px;}
     @keyframes spin{to{transform:rotate(360deg);}}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);}}
     
     /* Toast Notification */
     .toast-notification{position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--card); padding:15px 30px; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.3); z-index:9999; opacity:0; transition: all 0.4s ease; border:1px solid color-mix(in oklab, var(--primary) 30%, transparent);}
     .toast-notification.show{transform:translateX(-50%) translateY(0); opacity:1;}
     .toast-notification.success{border-color:#10b981;}
     .toast-notification.error{border-color:#ef4444;}
+    
+    /* Workflow Section */
+    .workflow-card{position:relative; transition: all 0.4s ease; overflow:hidden;}
+    .workflow-card:hover{transform:translateY(-10px); border-color:color-mix(in oklab, var(--primary) 40%, transparent);}
+    .workflow-step{position:absolute; top:15px; right:15px; font-size:3rem; font-weight:900; opacity:0.05; color:var(--primary);}
+    .workflow-icon{width:70px; height:70px; margin:0 auto; background:linear-gradient(135deg, rgba(77,163,255,0.15), rgba(0,212,255,0.15)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:var(--primary); transition: all 0.3s ease;}
+    .workflow-card:hover .workflow-icon{background:var(--gradient-primary); color:#fff; transform: scale(1.1);}
+    
+    /* Filter Buttons */
+    .filter-btn{background:transparent; border:1px solid color-mix(in oklab, var(--text) 15%, transparent); color:var(--muted); padding:0.5rem 1.2rem; border-radius:25px; font-weight:500; transition: all 0.3s ease; margin:0 3px 8px;}
+    .filter-btn:hover, .filter-btn.active{background:var(--gradient-primary); border-color:transparent; color:#fff;}
+    
+    /* Blog Cards */
+    .blog-card{border-radius:16px; overflow:hidden; background:var(--card); border:1px solid color-mix(in oklab, var(--text) 6%, transparent); transition: all 0.4s ease;}
+    .blog-card:hover{transform:translateY(-10px); box-shadow:0 25px 50px -20px var(--ring);}
+    .blog-img{height:180px; object-fit:cover; transition: transform 0.5s ease;}
+    .blog-card:hover .blog-img{transform:scale(1.05);}
+    .blog-date{position:absolute; top:15px; left:15px; background:var(--gradient-primary); color:#fff; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:600;}
+    .blog-category{position:absolute; top:15px; right:15px; background:rgba(0,0,0,0.7); color:#fff; padding:6px 12px; border-radius:8px; font-size:0.75rem;}
+    
+    /* Schedule Call Button */
+    .schedule-btn{background:linear-gradient(135deg, #10b981, #059669); border:none; color:#fff; font-weight:600; padding:0.6rem 1.4rem; border-radius:10px; transition: all 0.3s ease;}
+    .schedule-btn:hover{transform:translateY(-3px); box-shadow:0 15px 35px -10px rgba(16,185,129,0.5); color:#fff !important;}
+    
+    /* Google Maps */
+    .map-container{height:300px; border-radius:16px; overflow:hidden; border:1px solid var(--border-subtle);}
+    .map-container iframe{width:100%; height:100%; border:0; filter: grayscale(20%) invert(10%) contrast(95%);}
+    :root[data-theme="light"] .map-container iframe{filter:grayscale(30%) contrast(100%);}
+    
+    /* Mobile Nav Enhancement */
+    @media (max-width: 991px){
+      .navbar-collapse{background:var(--bg); padding:20px; border-radius:16px; margin-top:12px; border:1px solid var(--border-subtle); box-shadow:var(--shadow-lg);}
+      .navbar-toggler{background:rgba(59,130,246,0.1); border:none; padding:12px; border-radius:10px;}
+      .navbar-toggler:focus{box-shadow:none;}
+      .navbar-toggler-icon{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");}
+    }
   </style>
 </head>
 <body>
@@ -265,7 +340,9 @@
           <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
           <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+          <li class="nav-item"><a class="nav-link" href="#workflow">Workflow</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
           <li class="nav-item"><a class="nav-link" href="#youtube">YouTube</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -332,10 +409,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="scroll-indicator">
-      <span class="small">Scroll to explore</span>
-      <i class="bi bi-chevron-down mt-2 d-block" style="font-size:1.2rem;"></i>
     </div>
   </header>
 
@@ -433,7 +506,7 @@
   </section>
 
   <!-- About Section -->
-  <section id="about" class="section" style="background:color-mix(in oklab, var(--bg) 50%, transparent);">
+  <section id="about" class="section" style="background:linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.03) 50%, transparent 100%);">
     <div class="container">
       <div class="row align-items-center g-5">
         <div class="col-lg-6" data-aos="fade-right">
@@ -449,7 +522,7 @@
           <span class="kicker">About Me</span>
           <h2 class="fw-bold mb-4">Building Digital Solutions That Matter</h2>
           <p class="text-secondary mb-4">
-            I'm <strong>Mahmudul Hasan Rudra</strong>, an IT professional with 4+ years of hands-on experience in network administration, system support, SaaS platforms, and technical troubleshooting. Skilled in supporting Windows, Linux, and macOS environments, configuring MikroTik networks (LAN/WAN, VLAN, BGP), and providing customer-facing product support. Strong problem-solving mindset with ability to diagnose complex technical issues and explain solutions clearly to non-technical users.
+            I'm <strong>Mahmudul Hasan Rudra</strong>, an IT professional with 4+ years of hands-on experience in network administration, system support, SaaS platforms, and technical troubleshooting. Skilled in supporting Windows, Linux, and macOS environments, configuring MikroTik networks (LAN/WAN, VLAN, BGP), and providing customer-facing product support. I'm a <strong>fast learner</strong> with strong adaptability to new tools and systems, and I'm <strong>solution-centric</strong> - always focused on finding the best fix for any problem.
           </p>
           <div class="row g-3 mb-4">
             <div class="col-6">
@@ -493,6 +566,28 @@
                 <div>
                   <div class="fw-bold">DevOps Ready</div>
                   <div class="small text-secondary">Docker & CI/CD</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div style="width:45px; height:45px; background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(34,211,238,0.15)); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:15px;">
+                  <i class="bi bi-lightning-charge" style="font-size:1.3rem; color:var(--primary);"></i>
+                </div>
+                <div>
+                  <div class="fw-bold">Fast Learner</div>
+                  <div class="small text-secondary">Quick Adaptation</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div style="width:45px; height:45px; background:linear-gradient(135deg, rgba(16,185,129,0.2), rgba(34,211,238,0.15)); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:15px;">
+                  <i class="bi bi-puzzle" style="font-size:1.3rem; color:#10b981;"></i>
+                </div>
+                <div>
+                  <div class="fw-bold">Solution-Centric</div>
+                  <div class="small text-secondary">Problem Solver</div>
                 </div>
               </div>
             </div>
@@ -727,7 +822,7 @@
   </section>
 
   <!-- Experience Section -->
-  <section id="experience" class="section" style="background:color-mix(in oklab, var(--bg) 50%, transparent);">
+  <section id="experience" class="section" style="background:linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.03) 50%, transparent 100%);">
     <div class="container">
       <div class="section-heading" data-aos="fade-up">
         <span class="kicker">Experience</span>
@@ -821,6 +916,51 @@
     </div>
   </section>
 
+  <!-- Workflow Section -->
+  <section id="workflow" class="section">
+    <div class="container">
+      <div class="section-heading" data-aos="fade-up">
+        <span class="kicker">How I Work</span>
+        <h2>My Process</h2>
+        <p>A systematic approach to delivering exceptional results</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="0">
+          <div class="card h-100 text-center p-4 workflow-card">
+            <div class="workflow-step">01</div>
+            <div class="workflow-icon"><i class="bi bi-lightbulb"></i></div>
+            <h5 class="mt-3">Discovery</h5>
+            <p class="text-secondary small mb-0">Understanding your vision, requirements, and goals through detailed consultation</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="card h-100 text-center p-4 workflow-card">
+            <div class="workflow-step">02</div>
+            <div class="workflow-icon"><i class="bi bi-pencil-square"></i></div>
+            <h5 class="mt-3">Planning</h5>
+            <p class="text-secondary small mb-0">Creating detailed roadmap, technical specifications, and timeline estimates</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+          <div class="card h-100 text-center p-4 workflow-card">
+            <div class="workflow-step">03</div>
+            <div class="workflow-icon"><i class="bi bi-code-slash"></i></div>
+            <h5 class="mt-3">Development</h5>
+            <p class="text-secondary small mb-0">Building with clean code, regular updates, and iterative testing</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+          <div class="card h-100 text-center p-4 workflow-card">
+            <div class="workflow-step">04</div>
+            <div class="workflow-icon"><i class="bi bi-rocket-takeoff"></i></div>
+            <h5 class="mt-3">Delivery</h5>
+            <p class="text-secondary small mb-0">Launch, documentation, training, and ongoing support when needed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Projects Section -->
   <section id="projects" class="section">
     <div class="container">
@@ -829,8 +969,15 @@
         <h2>Featured Work</h2>
         <p>A selection of my recent projects and contributions</p>
       </div>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+      <div class="text-center mb-4" data-aos="fade-up">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="android">Android</button>
+        <button class="filter-btn" data-filter="network">Networking</button>
+        <button class="filter-btn" data-filter="ai">AI</button>
+        <button class="filter-btn" data-filter="devops">DevOps</button>
+      </div>
+      <div class="row g-4 project-grid">
+        <div class="col-md-6 col-lg-4 project-item" data-category="android" data-aos="fade-up" data-aos-delay="0">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=1400&auto=format&fit=crop" alt="Shift Fixer" loading="lazy" />
@@ -851,7 +998,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-md-6 col-lg-4 project-item" data-category="android" data-aos="fade-up" data-aos-delay="100">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1400&auto=format&fit=crop" alt="BalanceMe" loading="lazy" />
@@ -872,7 +1019,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-md-6 col-lg-4 project-item" data-category="network" data-aos="fade-up" data-aos-delay="200">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1400&auto=format&fit=crop" alt="MikroTik Manager" loading="lazy" />
@@ -893,7 +1040,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-md-6 col-lg-4 project-item" data-category="ai" data-aos="fade-up" data-aos-delay="300">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1400&auto=format&fit=crop" alt="AI Agents" loading="lazy" />
@@ -914,7 +1061,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="col-md-6 col-lg-4 project-item" data-category="devops" data-aos="fade-up" data-aos-delay="400">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1400&auto=format&fit=crop" alt="Log Server" loading="lazy" />
@@ -935,7 +1082,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="col-md-6 col-lg-4 project-item" data-category="devops" data-aos="fade-up" data-aos-delay="500">
           <div class="project-card card h-100">
             <div class="position-relative overflow-hidden">
               <img class="project-img w-100" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop" alt="ISP Management" loading="lazy" />
@@ -982,7 +1129,7 @@
   </section>
 
   <!-- Testimonials Section -->
-  <section id="testimonials" class="section" style="background:color-mix(in oklab, var(--bg) 50%, transparent);">
+  <section id="testimonials" class="section" style="background:linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.03) 50%, transparent 100%);">
     <div class="container">
       <div class="section-heading" data-aos="fade-up">
         <span class="kicker">Testimonials</span>
@@ -1104,8 +1251,68 @@
     </div>
   </section>
 
+  <!-- Blog Section -->
+  <section id="blog" class="section">
+    <div class="container">
+      <div class="section-heading" data-aos="fade-up">
+        <span class="kicker">Blog</span>
+        <h2>Latest Articles</h2>
+        <p>Thoughts on technology, development, and innovation</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+          <div class="blog-card h-100">
+            <div class="position-relative overflow-hidden">
+              <img class="blog-img w-100" src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=1400&auto=format&fit=crop" alt="Blog" loading="lazy" />
+              <span class="blog-date">Mar 10, 2026</span>
+              <span class="blog-category">Android</span>
+            </div>
+            <div class="p-4">
+              <h5>Building Modern Android Apps with Jetpack Compose</h5>
+              <p class="text-secondary small">Learn how to create beautiful, performant Android applications using modern UI toolkit.</p>
+              <a href="#" class="text-primary text-decoration-none small fw-bold">Read More <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="blog-card h-100">
+            <div class="position-relative overflow-hidden">
+              <img class="blog-img w-100" src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1400&auto=format&fit=crop" alt="Blog" loading="lazy" />
+              <span class="blog-date">Mar 5, 2026</span>
+              <span class="blog-category">AI & ML</span>
+            </div>
+            <div class="p-4">
+              <h5>Getting Started with Large Language Models</h5>
+              <p class="text-secondary small">A comprehensive guide to integrating LLMs into your applications.</p>
+              <a href="#" class="text-primary text-decoration-none small fw-bold">Read More <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="blog-card h-100">
+            <div class="position-relative overflow-hidden">
+              <img class="blog-img w-100" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1400&auto=format&fit=crop" alt="Blog" loading="lazy" />
+              <span class="blog-date">Feb 28, 2026</span>
+              <span class="blog-category">Networking</span>
+            </div>
+            <div class="p-4">
+              <h5>MikroTik Best Practices for ISP Networks</h5>
+              <p class="text-secondary small">Essential tips for configuring and securing MikroTik routers in production.</p>
+              <a href="#" class="text-primary text-decoration-none small fw-bold">Read More <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5" data-aos="fade-up">
+        <a class="btn btn-outline btn-glow" href="https://medium.com/@mhrudra064" target="_blank">
+          <i class="bi bi-medium me-2"></i> View All Articles
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact Section -->
-  <section id="contact" class="section" style="background:color-mix(in oklab, var(--bg) 50%, transparent);">
+  <section id="contact" class="section" style="background:linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.03) 50%, transparent 100%);">
     <div class="container">
       <div class="section-heading" data-aos="fade-up">
         <span class="kicker">Contact</span>
@@ -1188,12 +1395,22 @@
                   <a class="btn btn-outline" href="mailto:mhrudra064@gmail.com?subject=Project%20Inquiry">
                     <i class="bi bi-envelope me-2"></i> Use Email
                   </a>
+                  <a class="schedule-btn" href="https://calendly.com/mhrudra064" target="_blank">
+                    <i class="bi bi-calendar-check me-2"></i> Schedule Call
+                  </a>
                 </div>
                 <small class="text-secondary d-block mt-3">
                   <i class="bi bi-shield-check me-1"></i> Your information is secure. I usually reply within 24-48 hours.
                 </small>
               </form>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mt-4">
+        <div class="col-12" data-aos="fade-up">
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d233668.4950435773!2d90.25486937915315!3d23.7806365363422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b4c3552f71%3A0x1e70e6e6b2e7e6e6!2sNarayanganj%2C%20Dhaka%2C%20Bangladesh!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Location"></iframe>
           </div>
         </div>
       </div>
@@ -1356,6 +1573,29 @@
       
       skillBars.forEach(function(bar) {
         skillObserver.observe(bar);
+      });
+
+      // Project filtering
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const projectItems = document.querySelectorAll('.project-item');
+      
+      filterBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+          
+          filterBtns.forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          
+          projectItems.forEach(function(item) {
+            const category = item.getAttribute('data-category');
+            if (filter === 'all' || category === filter) {
+              item.style.display = 'block';
+              item.style.animation = 'fadeIn 0.5s ease forwards';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
       });
 
       // Animate stats counter
